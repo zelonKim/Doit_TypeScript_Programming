@@ -129,3 +129,108 @@ a.method() // value:1 */
 
 let a: A = new A
 a.method() // value:1 */
+
+///////////////////////////
+
+/* export const work = <Q, T extends Person<Q>>(a: T) => console.log(a.value) */
+/* 
+interface Person<T> {
+  doing: T
+}
+
+class Student<T> implements Person<T> {
+  constructor(public doing: T) {}
+}
+
+export const print = <T>(a: Person<T>): void => console.log(a.doing);
+
+const seongjin= {
+  doing: 1,
+  age: 28
+}
+
+print<number>(seongjin); */
+
+/////////////////////////////
+
+/* interface Person<T> {
+  name: T
+}
+
+class Student<T> implements Person<T> {
+  constructor(
+    public name: T,
+    public age: T
+  ) {}
+}
+
+export const intro = <T>(a: Student<T>): void => console.log(a.age);
+
+intro(new Student("seongjin", 28)); // 오류 발생 (Argument of type 'number' is not assignable to parameter of type 'string')
+ */
+
+/////////////////////
+
+/* interface Person<T> {
+  name: T
+}
+
+class Student<T,Q> implements Person<T> {
+  constructor(
+    public name: T,
+    public age: Q
+  ) {}
+}
+
+export const intro = <T,Q>(a: Student<T,Q>): void => console.log(a.age);
+
+intro(new Student("seongjin", 28)); // 정상 실행 // 28 */
+
+//////////////////////
+
+/* function intro<T, Q>(name:T, age:Q): void {
+    console.log(`My name is ${name} and I'm ${age} years old`);
+}
+
+intro("seongjin", 28) // 정상 실행 ("My name is seongjin and I'm 28years old" )
+
+intro("seongjin", "twenty eight") // 정상 실행 ("My name is seongjin and I'm twenty eight years old")
+ */
+
+///////////////////
+
+/* function intro<T, Q extends T>(name:T, age:Q): void {
+    console.log(`My name is ${name} and I'm ${age}years old`);
+}
+
+intro("seongjin", 28) // 오류 발생 (Argument of type 'number' is not assignable to parameter of type 'string'.)
+
+intro("seongjin", "twenty eight") // 정상 실행 ("My name is seongjin and I'm twenty eight years old" )
+ */
+
+//////////////////////
+
+/* const create = <T>(type: T): T => new type() // 오류 발생
+
+const create = <T extends {new(): T}>(type: T): T => new type() // 정상 실행
+
+const create = <T>(type: new() => T): T => new type() // 정상 실행
+ */
+
+//////////////////////
+
+/* const pick = (obj, keys) => keys.map(key => ({[key]: obj[key]})).reduce((result, value) => ({...result, ...value}), {})
+
+const obj = {name: 'Jane', age: 22, city: 'Seoul', country: 'Korea'}
+
+console.log(pick(obj,['name','agee'])) 
+// 정상 실행  // { name: 'Jane', agee: undefined } */
+
+////////////////////////
+
+/* const pick = <T, K extends keyof T>(obj:T, keys: K[]) => keys.map(key => ({[key]: obj[key]})).reduce((result, value) => ({...result, ...value}), {})
+
+const obj = {name: 'Jane', age: 22, city: 'Seoul', country: 'Korea'}
+
+console.log(pick(obj,['name','agee'])) 
+// 오류 발생 (Type '"agee"' is not assignable to type '"name" | "age" | "city" | "country"'. Did you mean '"age"'?) */
